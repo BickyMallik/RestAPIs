@@ -36,7 +36,7 @@ public class StudentService {
         return studentRepository.save(existing);
     }
 
-    public Student pathStudent(Long id, Student partialStudent){
+    public Student patchStudent(Long id, Student partialStudent){
         Student existing = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
         if (partialStudent.getName() != null)
             existing.setName(partialStudent.getName());
