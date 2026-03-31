@@ -15,20 +15,17 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(Long id){
-        return studentRepository.findById(id).orElse(null);
-    }
-
     public Student saveStudent(Student student){
         return studentRepository.save(student);
     }
 
     public void deleteStudent(Long id){
+        studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         studentRepository.deleteById(id);
     }
 
     public Student updateStudent(Long id, Student updateStudent){
-        Student existing = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        Student existing = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         existing.setName(updateStudent.getName());
         existing.setEmail(updateStudent.getEmail());
         existing.setBranch(updateStudent.getBranch());
@@ -37,7 +34,7 @@ public class StudentService {
     }
 
     public Student patchStudent(Long id, Student partialStudent){
-        Student existing = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        Student existing = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
         if (partialStudent.getName() != null)
             existing.setName(partialStudent.getName());
         if (partialStudent.getEmail() != null)
@@ -51,5 +48,9 @@ public class StudentService {
 
     public List<Student> getStudentsByBranch(String branch) {
         return studentRepository.findByBranch(branch);
+    }
+
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     }
 }
