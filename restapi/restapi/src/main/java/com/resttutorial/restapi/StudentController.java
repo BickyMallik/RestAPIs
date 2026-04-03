@@ -15,17 +15,13 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents(){
-        return ResponseEntity.ok(studentService.getAllStudents());
+    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+        return ResponseEntity.ok(studentService.getAllStudentDTOs());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id){
-        Student student = studentService.getStudentById(id);
-        if (student == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable Long id){
+        return ResponseEntity.ok(studentService.getStudentDTOById(id));
     }
 
     @PostMapping

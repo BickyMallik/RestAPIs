@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -52,5 +53,14 @@ public class StudentService {
 
     public Student getStudentById(Long id) {
         return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+    }
+
+    public StudentDTO getStudentDTOById(Long id){
+        Student student = studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id));
+        return new StudentDTO(student.getId(), student.getName(), student.getEmail());
+    }
+
+    public List<StudentDTO> getAllStudentDTOs(){
+        return studentRepository.findAll().stream().map(s -> new StudentDTO(s.getId(), s.getName(), s.getEmail())).collect(Collectors.toList());
     }
 }
