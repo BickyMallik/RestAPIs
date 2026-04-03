@@ -1,6 +1,7 @@
 package com.resttutorial.restapi;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,5 +19,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
         ErrorResponse error = new ErrorResponse(500, "Something went wrong");
         return ResponseEntity.status(500).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex){
+        String errorMessage = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        ErrorResponse error = new ErrorResponse(400, errorMessage);
+        return ResponseEntity.status(400).body(error);
     }
 }
