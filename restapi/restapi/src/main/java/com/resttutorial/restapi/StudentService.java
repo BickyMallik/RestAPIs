@@ -1,6 +1,10 @@
 package com.resttutorial.restapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,5 +66,10 @@ public class StudentService {
 
     public List<StudentDTO> getAllStudentDTOs(){
         return studentRepository.findAll().stream().map(s -> new StudentDTO(s.getId(), s.getName(), s.getEmail())).collect(Collectors.toList());
+    }
+
+    public Page<Student> getStudentsPaged(int page, int size,String sortBy){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return studentRepository.findAll(pageable);
     }
 }

@@ -1,10 +1,13 @@
 package com.resttutorial.restapi;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -51,5 +54,10 @@ public class StudentController {
     @GetMapping("/search")
     public ResponseEntity<List<Student>> searchByBranch(@RequestParam String branch) {
         return ResponseEntity.ok(studentService.getStudentsByBranch(branch));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Student>> getStudentsPaged(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "id") String sortBy){
+        return ResponseEntity.ok(studentService.getStudentsPaged(page, size, sortBy));
     }
 }
