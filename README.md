@@ -28,7 +28,3 @@ A hands-on practice project built while learning Spring Boot for Java Full Stack
 | PATCH  | /api/students/{id}              | Partial update        |
 | DELETE | /api/students/{id}              | Delete student        |
 | GET    | /api/students/search?branch=CSE | Search by branch      |
-
-
-## Learning Reference
-Anuj Kumar Sharma - Spring Boot Playlist
